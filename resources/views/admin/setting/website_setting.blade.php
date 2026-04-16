@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('title', get_phrase('System Settings'))
+@push('meta')
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+@endpush
 @section('admin_layout')
 
 <div class="ol-card radius-8px">
