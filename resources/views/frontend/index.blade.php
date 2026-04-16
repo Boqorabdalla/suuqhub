@@ -986,12 +986,23 @@
                         <ul class="trusted-companies-wrap">
                             @php
                                 $company_images = json_decode(get_frontend_settings('company_images'), true);
+                                $hasValidImages = false;
+                                if (!empty($company_images) && is_array($company_images)) {
+                                    foreach ($company_images as $img) {
+                                        if (!empty($img['image'])) {
+                                            $hasValidImages = true;
+                                            break;
+                                        }
+                                    }
+                                }
                             @endphp
-                            @if (!empty($company_images) && is_array($company_images))
+                            @if ($hasValidImages)
                                 @foreach ($company_images as $images)
-                                    <li><a href="javascript:;">
-                                            <img src="{{ asset('uploads/company_logo/' . $images['image']) }}" alt="">
-                                        </a></li>
+                                    @if (!empty($images['image']))
+                                        <li><a href="javascript:;">
+                                                <img src="{{ asset('uploads/company_logo/' . $images['image']) }}" alt="" onerror="this.style.display='none'">
+                                            </a></li>
+                                    @endif
                                 @endforeach
                             @endif
                         </ul>
