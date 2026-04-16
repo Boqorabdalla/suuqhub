@@ -1,0 +1,109 @@
+<?php
+
+use App\Http\Controllers\Admin\BadgeController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\ListingController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Agent\AgentController;
+use App\Http\Controllers\Agent\AgentInventoryController;
+use App\Http\Controllers\Agent\AgentEarningsController;
+use App\Http\Controllers\Agent\AgentSubscriptionController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Home Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the " "middleware group. Now create something great!
+|
+*/
+
+Route::get('/agent/subscription', [SubscriptionController::class, 'user_subscription'])->name('user.subscription');
+
+// Agent Inventory Management Routes (requires shop subscription)
+Route::middleware(['auth', 'agent', 'shopSubscription'])->group(function () {
+    Route::get('/agent/inventory', [AgentInventoryController::class, 'index'])->name('agent.inventory');
+    Route::get('/agent/inventory/create', [AgentInventoryController::class, 'create'])->name('agent.inventory.create');
+    Route::post('/agent/inventory/store', [AgentInventoryController::class, 'store'])->name('agent.inventory.store');
+    Route::get('/agent/inventory/edit/{id}', [AgentInventoryController::class, 'edit'])->name('agent.inventory.edit');
+    Route::post('/agent/inventory/update/{id}', [AgentInventoryController::class, 'update'])->name('agent.inventory.update');
+    Route::get('/agent/inventory/delete/{id}', [AgentInventoryController::class, 'destroy'])->name('agent.inventory.delete');
+    Route::post('/agent/inventory/stock/{id}', [AgentInventoryController::class, 'updateStock'])->name('agent.inventory.stock.update');
+    Route::post('/agent/inventory/bulk-stock', [AgentInventoryController::class, 'bulkUpdateStock'])->name('agent.inventory.bulk-stock');
+});
+
+// Agent Earnings Routes (requires shop subscription)
+Route::middleware(['auth', 'agent', 'shopSubscription'])->group(function () {
+    Route::get('/agent/earnings', [AgentEarningsController::class, 'index'])->name('agent.earnings');
+    Route::post('/agent/earnings/request-payout', [AgentEarningsController::class, 'requestPayout'])->name('agent.earnings.payout');
+    Route::get('/agent/earnings/payouts', [AgentEarningsController::class, 'payoutHistory'])->name('agent.earnings.payouts');
+    Route::get('/agent/earnings/sales', [AgentEarningsController::class, 'salesReport'])->name('agent.earnings.sales');
+});
+
+Route::controller(AgentController::class)->middleware('auth', 'agent')->group(function () {
+
+    Route::get('/agent/badges', [BadgeController::class, 'agent_badges'])->name('agent.badges');
+
+    Route::get('/agent/booking', 'booking')->name('agent.booking');
+    Route::get('/agent/my-listings', 'my_listings')->name('agent.my_listings');
+    Route::get('/agent/add-listing', 'add_listing')->name('agent.add.listing');
+    Route::get('/agent/add-listing/{type}', 'add_listing_type')->name('agent.add.listing.type'); 
+
+    Route::get('/agent/listings-filter', [AgentController::class, 'agent_ListingsFilter'])->name('agent.listingsFilter');
+
+    Route::get('/agent/appointment',  [AgentController::class, 'appointment'])->name('agent.appointment');
+    Route::get('/agent/appointment/status/{id}/{status}',  [AgentController::class, 'appointment_status'])->name('agent.appointment.status');
+    Route::get('/agent/appointment/status/{id}',  [AgentController::class, 'appointment_delete'])->name('agent.appointment.delete');
+    Route::get('/agent/appointment/details/{id}/{type}',  [AgentController::class, 'agent.appointment.view_details'])->name('agent.appointment.view_details');
+    Route::post('/agent/appointment/update/link/{id}',  [AgentController::class, 'appointment_update_link'])->name('agent.update.zoom.link');
+
+//redirect Link
+Route::get('/agent/order-manager', function() {
+    return redirect()->route('order.manager.dashboard');
+})->name('agent.order.manager');
+
+Route::get('/agent/order-delivery', function() {
+    return redirect()->route('order.manager.dashboard');
+})->name('agent.order.delivery');
+
+    // Listing create
+    Route::post('/agent/listing-store/{type}', [ListingController::class, 'listing_store'])->name('user.listing.store');
+    Route::get('/agent/listing-delete/{type}/{id}', [ListingController::class, 'listing_delete'])->name('user.listing.delete');
+    Route::get('/agent/change-status/{type}/{id}/{status}', [ListingController::class, 'listing_status'])->name('user.listing.status');
+    Route::get('/agent/listing-edit/{id}/{type}/{tab}', [AgentController::class, 'listing_edit'])->name('user.listing.edit');
+    Route::get('/agent/listing-image-delete/{type}/{id}/{image}', [ListingController::class, 'listing_image_delete'])->name('user.listing.image.delete');
+    Route::post('/agent/listing-update/{type}/{id}', [ListingController::class, 'listing_update'])->name('user.listing.update');
+
+    Route::get('/agent/listing-floor-image-delete/{type}/{id}/{image}', [ListingController::class, 'listing_floor_image_delete'])->name('user.listing.floor.image.delete');
+
+
+    Route::get('/agent/modify_billing/information', [SubscriptionController::class, 'modifyBilling'])->name('modifyBilling');
+    Route::get('/agent/subscription/download_invoice/{id}', [SubscriptionController::class, 'subscriptionInvoice'])->name('subscriptionInvoice');
+
+
+    Route::post('/agent/update/information', [AgentController::class, 'updateUserInfo'])->name('updateUserInfo');
+
+
+    Route::get('/agent/blogs', [BlogController::class, 'user_blogs'])->name('user.blogs')->middleware('blog.permission');
+    Route::get('/agent/blog/create', [BlogController::class, 'user_create_blog'])->name('admin.blogs.create')->middleware('blog.permission');
+    Route::post('/agent/blog/store', [BlogController::class, 'blog_store'])->name('agent.blog.store')->middleware('blog.permission');
+    Route::get('/agent/blog/edit/{id}', [BlogController::class, 'user_blog_edit'])->name('agent.blog.edit')->middleware('blog.permission');
+    Route::post('/agent/blog/update/{id}', [BlogController::class, 'blog_update'])->name('agent.blog.update')->middleware('blog.permission');
+    Route::get('/agent/blog/delete/{id}', [BlogController::class, 'user_blog_delete'])->name('agent.blog.delete')->middleware('blog.permission');
+
+    Route::get('/agent/claim-history', [AgentController::class, 'claim_history'])->name('user.agent.claim_history');
+
+
+    // Bulk Upload Listings
+    Route::get('/agent/bulk-listing-upload', [AgentController::class, 'bulk_listing_upload'])->name('agent.bulk_listing_upload');
+    Route::get('agents/country-city/{id}', [CityController::class, 'country_city'])->name('agent.country.city');
+
+Route::get('/agent/listing-category/{type}', [ListingController::class, 'listing_category'])->name('agent.create.category');
+    Route::post('/agent/bulk_upload_store', [ListingController::class, 'bulk_listing_upload_store'])->name('agent.bulk_upload_store');
+
+});

@@ -1,0 +1,28 @@
+{
+    "name": "Atlas Business Directory",
+    "short_name": "Atlas",
+    "description": "Business Directory & Online Marketplace",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#6C1CFF",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/image/icon-192.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/image/icon-512.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["business", "shopping", "productivity"],
+    "screenshots": [],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

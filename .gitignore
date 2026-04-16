@@ -1,0 +1,55 @@
+# Laravel
+/vendor/
+/node_modules/
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+.phpunit.cache
+.phpactor.json
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+auth.json
+
+# Storage
+/storage/*.key
+/storage/app/*
+/storage/app/public/*
+!/storage/app/.gitignore
+!/storage/app/public/.gitignore
+
+# Uploads - exclude uploaded files
+/public/uploads/
+!/public/uploads/logo/.gitignore
+
+# Logs
+*.log
+/storage/logs/
+
+# IDE
+/.phpunit.cache
+/.fleet
+/.idea
+/.vscode
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+/public/build/
+/public/hot
+/public/storage
+
+# Cache
+/bootstrap/cache/
+/.cache/
+
+# Composer
+composer.phar
+/vendor/bin/
