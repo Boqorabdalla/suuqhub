@@ -1,7 +1,7 @@
 {
-    "name": "Atlas Business Directory",
-    "short_name": "Atlas",
-    "description": "Business Directory & Online Marketplace",
+    "name": "SuuqHub - Marketplace",
+    "short_name": "SuuqHub",
+    "description": "Your multi-vendor marketplace for services and listings",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
@@ -21,8 +21,20 @@
             "purpose": "any maskable"
         }
     ],
-    "categories": ["business", "shopping", "productivity"],
+    "categories": ["shopping", "business", "lifestyle"],
     "screenshots": [],
-    "related_applications": [],
-    "prefer_related_applications": false
+    "shortcuts": [
+        {
+            "name": "Browse Services",
+            "short_name": "Services",
+            "description": "Browse available services",
+            "url": "/beauty"
+        },
+        {
+            "name": "My Bookings",
+            "short_name": "Bookings",
+            "description": "View your service bookings",
+            "url": "/customer/service/bookings"
+        }
+    ]
 }
