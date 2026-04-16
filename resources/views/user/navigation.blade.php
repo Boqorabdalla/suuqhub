@@ -352,10 +352,13 @@ if (!isset($active)) $active = '';
                 </div>
             @endif
             <div class="d-flex justify-content-center">
-<form method="POST" action="{{ route('logout') }}" class="d-inline">@csrf<button type="submit" class="btn bg-transparent border-0 text-start w-100 ...">Log Out</button></form>
-                    <img src="{{ asset('assets/frontend/images/icons/logout-left-white-20.svg') }}" alt="icon">
-                    <span>{{ get_phrase('Logout') }}</span>
-                </a>
+                <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
+                    @csrf
+                    <button type="submit" class="btn bg-transparent border-0 text-start w-100 d-flex align-items-center gap-2">
+                        <img src="{{ asset('assets/frontend/images/icons/logout-left-white-20.svg') }}" alt="icon">
+                        <span>{{ get_phrase('Logout') }}</span>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
