@@ -50,6 +50,7 @@ Route::controller(AgentController::class)->middleware('auth', 'agent')->group(fu
     Route::get('/agent/badges', [BadgeController::class, 'agent_badges'])->name('agent.badges');
 
     Route::get('/agent/booking', 'booking')->name('agent.booking');
+    Route::get('/agent/dashboard', 'dashboard')->name('agent.dashboard');
     Route::get('/agent/my-listings', 'my_listings')->name('agent.my_listings');
     Route::get('/agent/add-listing', 'add_listing')->name('agent.add.listing');
     Route::get('/agent/add-listing/{type}', 'add_listing_type')->name('agent.add.listing.type'); 

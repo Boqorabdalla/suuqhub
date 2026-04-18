@@ -32,6 +32,59 @@ class AgentController extends Controller
         return view('user.agent.booking', $page_data);
     }
 
+    public function dashboard()
+    {
+        $userId = auth()->user()->id;
+        $page_data['active'] = 'dashboard';
+
+        // Get all listings for this agent
+        $beautyListings = BeautyListing::where('user_id', $userId)->pluck('id');
+        $carListings = CarListing::where('user_id', $userId)->pluck('id');
+        $hotelListings = HotelListing::where('user_id', $userId)->pluck('id');
+        $restaurantListings = RestaurantListing::where('user_id', $userId)->pluck('id');
+        $realEstateListings = RealEstateListing::where('user_id', $userId)->pluck('id');
+
+        // Total Listings
+        $page_data['total_listings'] = $beautyListings->count() + $carListings->count() + $hotelListings->count() + $restaurantListings->count() + $realEstateListings->count();
+
+        // Bookings from service_selling addon
+        $page_data['total_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->count();
+        
+        // Pending Bookings
+        $page_data['pending_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
+            ->where('status', 'pending')
+            ->count();
+
+        // Completed Bookings
+        $page_data['completed_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
+            ->where('status', 'completed')
+            ->count();
+
+        // Total Earnings (from completed bookings)
+        $page_data['total_earnings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
+            ->where('status', 'completed')
+            ->sum('total_amount');
+
+        // Recent Bookings
+        $recentBookings = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        $page_data['recent_bookings'] = $recentBookings;
+
+        // This month's stats
+        $startOfMonth = now()->startOfMonth();
+        $page_data['monthly_earnings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
+            ->where('status', 'completed')
+            ->where('created_at', '>=', $startOfMonth)
+            ->sum('total_amount');
+
+        $page_data['monthly_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
+            ->where('created_at', '>=', $startOfMonth)
+            ->count();
+
+        return view('user.agent.dashboard', $page_data);
+    }
 
     public function my_listings()
     {

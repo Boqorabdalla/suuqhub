@@ -152,6 +152,15 @@ if (!isset($active)) $active = '';
                     <h3 class="in-title-14px mb-2 cap-sidebar-title">{{ get_phrase('My Agent Panel') }}</h3>
                     <nav>
                         <ul>
+                            <li class="sidebar-nav-item"><a href="{{ route('agent.dashboard') }}" class="sidebar-nav-link {{ $active == 'dashboard' ? 'active' : '' }}">
+                                    <span class="d-flex align-items-start mt-1px gap-6px">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 1.5L15 7.5V16.5H11.25V10.5H6.75V16.5H3V7.5L9 1.5Z" stroke="#99A1B7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span class="mt-1px">{{ get_phrase('Dashboard') }}</span>
+                                    </span>
+                                </a></li>
+
                             <li class="sidebar-nav-item"><a href="{{ route('agent.my_listings') }}" class="sidebar-nav-link {{ $active == 'agent_listing' ? 'active' : '' }}">
                                     <span class="d-flex align-items-start mt-1px gap-6px">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
