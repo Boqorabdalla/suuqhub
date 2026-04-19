@@ -41,6 +41,12 @@ class RouteServiceProvider extends ServiceProvider
                 Route::middleware(['web'])
                     ->group(base_path('routes/service_selling.php'));
             }
+
+            // Always load customer routes
+            if (file_exists(base_path('routes/customer.php'))) {
+                Route::middleware(['web', 'auth'])
+                    ->group(base_path('routes/customer.php'));
+            }
         });
     }
 
