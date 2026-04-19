@@ -17,7 +17,7 @@
                             @if(count($conversations) > 0)
                                 <div class="list-group list-group-flush">
                                     @foreach($conversations as $conv)
-                                        <a href="{{ route('user.chat', $conv['user']->id) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+                                        <a href="{{ route('user.chat', ['prefix' => $user_prefix, 'userId' => $conv['user']->id]) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3">
                                             <img src="{{ get_user_image($conv['user']->image, 'users/') }}" alt="" class="rounded-circle" width="50" height="50">
                                             <div class="flex-grow-1">
                                                 <div class="d-flex justify-content-between align-items-center">

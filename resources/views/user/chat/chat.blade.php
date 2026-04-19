@@ -12,7 +12,7 @@
                     <div class="card border-0 shadow-sm">
                         <!-- Chat Header -->
                         <div class="card-header bg-white py-3 d-flex align-items-center gap-3">
-                            <a href="{{ route('user.conversations') }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('user.conversations', ['prefix' => $user_prefix]) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i>
                             </a>
                             <img src="{{ get_user_image($otherUser->image, 'users/') }}" alt="" class="rounded-circle" width="40" height="40">
@@ -38,7 +38,7 @@
                         
                         <!-- Message Input -->
                         <div class="card-footer bg-white">
-                            <form action="{{ route('user.chat.send', $otherUserId) }}" method="POST" class="d-flex gap-2">
+                            <form action="{{ route('user.chat.send', ['prefix' => $user_prefix, 'userId' => $otherUserId]) }}" method="POST" class="d-flex gap-2">
                                 @csrf
                                 <input type="text" name="message" class="form-control" placeholder="{{ get_phrase('Type a message...') }}" required>
                                 <button type="submit" class="btn btn-primary">
