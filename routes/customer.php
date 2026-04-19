@@ -3,6 +3,7 @@
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Agent\AgentSubscriptionController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\User\ChatController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('{prefix}')->controller(CustomerController::class)->middleware('auth')->group(function () {
@@ -20,6 +21,13 @@ Route::controller(CustomerController::class)->middleware('auth', 'customer')->gr
     Route::get('/customer/appointment/details/{id}/{type}', 'customer_appointment_view_details')->name('customer.appointment.view_details');
     Route::get('/customer/appointment/status/{id}', [AgentController::class, 'appointment_delete'])->name('customer.appointment.delete');
     Route::get('/agent/appointment/details/{id}/{type}', [AgentController::class, 'agent_appointment_view_details'])->name('agent.appointment.view_details');
+});
+
+// Chat Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/conversations', [ChatController::class, 'conversations'])->name('user.conversations');
+    Route::get('/chat/{userId}', [ChatController::class, 'chat'])->name('user.chat');
+    Route::post('/chat/{userId}', [ChatController::class, 'sendMessage'])->name('user.chat.send');
 });
 
 // Shop Subscription Route (only for agents)

@@ -122,6 +122,14 @@ if (!isset($active)) $active = '';
                                     <span class="mt-1px">{{ get_phrase('Message') }}</span>
                                 </span>
                             </a></li>
+                        <li class="sidebar-nav-item"><a href="{{ route('user.conversations') }}" class="sidebar-nav-link {{ $active == 'inbox' ? 'active' : '' }}">
+                                <span class="d-flex align-items-start mt-1px gap-6px">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 4.5H15M3 9H15M3 13.5H9" stroke="#99A1B7" stroke-width="1.4" stroke-linecap="round"/>
+                                    </svg>
+                                    <span class="mt-1px">{{ get_phrase('Inbox') }}</span>
+                                </span>
+                            </a></li>
                         <li class="sidebar-nav-item"><a href="{{ route('user.account') }}" class="sidebar-nav-link {{ $active == 'account' ? 'active' : '' }}">
                                 <span class="d-flex align-items-start mt-1px gap-6px">
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
