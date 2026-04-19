@@ -24,10 +24,10 @@ Route::controller(CustomerController::class)->middleware('auth', 'customer')->gr
 });
 
 // Chat Routes
-Route::controller(ChatController::class)->middleware(['auth'])->group(function () {
-    Route::get('conversations', 'conversations')->name('user.conversations');
-    Route::get('chat/{userId}', 'chat')->name('user.chat');
-    Route::post('chat/{userId}', 'sendMessage')->name('user.chat.send');
+Route::prefix('{prefix}')->controller(ChatController::class)->middleware('auth')->group(function () {
+    Route::get('/conversations', 'conversations')->name('user.conversations');
+    Route::get('/chat/{userId}', 'chat')->name('user.chat');
+    Route::post('/chat/{userId}', 'sendMessage')->name('user.chat.send');
 });
 
 // Shop Subscription Route (only for agents)
