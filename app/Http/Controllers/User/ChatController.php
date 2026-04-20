@@ -8,11 +8,20 @@ use App\Models\User;
 use App\Models\BeautyListing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class ChatController extends Controller
 {
     public function conversations()
     {
+        try {
+            if (!Schema::hasTable('chat_messages')) {
+                return view('user.chat.conversations', ['conversations' => []]);
+            }
+        } catch (\Exception $e) {
+            return view('user.chat.conversations', ['conversations' => []]);
+        }
+        
         $userId = Auth::id();
         
         // Get unique conversations (users we've chatted with)
