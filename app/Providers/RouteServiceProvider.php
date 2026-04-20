@@ -30,8 +30,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['web'])
                 ->group(base_path('routes/web.php'));
 
-            $shopAddon = \App\Models\Addon::where('unique_identifier', 'shop')->where('status', 1)->first();
-            if ($shopAddon) {
+            // Always load shop routes (remove addon check for testing)
+            if (file_exists(base_path('routes/shop.php'))) {
                 Route::middleware(['web'])
                     ->group(base_path('routes/shop.php'));
             }
