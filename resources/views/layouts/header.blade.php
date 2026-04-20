@@ -217,6 +217,27 @@
                                                         </span>
                                                     </a>
                                                 </li>
+                                                <li class="sidebar-nav-item">
+                                                    <a href="{{ route('user.messages', ['prefix' => 'customer']) }}" class="user-dropdown-item fill-none">
+                                                        <span class="d-flex align-items-center mt-1px gap-6px">
+                                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M12.75 15.375H5.25C3 15.375 1.5 14.25 1.5 11.625V6.375C1.5 3.75 3 2.625 5.25 2.625H12.75C15 2.625 16.5 3.75 16.5 6.375V11.625C16.5 14.25 15 15.375 12.75 15.375Z" stroke="#99A1B7" stroke-width="1.4" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                                                <path d="M12.75 6.75L10.4025 8.625C9.63 9.24 8.3625 9.24 7.59 8.625L5.25 6.75" stroke="#99A1B7" stroke-width="1.4" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                                            </svg>
+                                                            <span class="mt-1px">{{ get_phrase('Message') }}</span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-nav-item">
+                                                    <a href="{{ route('user.conversations', ['prefix' => 'customer']) }}" class="user-dropdown-item fill-none">
+                                                        <span class="d-flex align-items-center mt-1px gap-6px">
+                                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M3 4.5H15M3 9H15M3 13.5H9" stroke="#99A1B7" stroke-width="1.4" stroke-linecap="round"/>
+                                                            </svg>
+                                                            <span class="mt-1px">{{ get_phrase('Inbox') }}</span>
+                                                        </span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                             <div class="px-10px py-12px">
                                                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
