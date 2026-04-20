@@ -63,13 +63,19 @@ Route::controller(AgentController::class)->middleware('auth', 'agent')->group(fu
     Route::get('/agent/appointment/details/{id}/{type}',  [AgentController::class, 'agent.appointment.view_details'])->name('agent.appointment.view_details');
     Route::post('/agent/appointment/update/link/{id}',  [AgentController::class, 'appointment_update_link'])->name('agent.update.zoom.link');
 
-//redirect Link
+//redirect Link - for agents with shop subscription, go to agent shop
 Route::get('/agent/order-manager', function() {
-    return redirect()->route('order.manager.dashboard');
+    if (check_shop_subscription(auth()->user()->id)) {
+        return redirect()->route('agent.shop.orders');
+    }
+    return redirect()->route('shop.subscription')->with('error', 'Please subscribe to Shop to manage orders.');
 })->name('agent.order.manager');
 
 Route::get('/agent/order-delivery', function() {
-    return redirect()->route('order.manager.dashboard');
+    if (check_shop_subscription(auth()->user()->id)) {
+        return redirect()->route('agent.shop.orders');
+    }
+    return redirect()->route('shop.subscription')->with('error', 'Please subscribe to Shop to manage orders.');
 })->name('agent.order.delivery');
 
     // Listing create
