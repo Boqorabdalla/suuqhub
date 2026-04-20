@@ -34,56 +34,53 @@ class AgentController extends Controller
 
     public function dashboard()
     {
-        $userId = auth()->user()->id;
-        $page_data['active'] = 'dashboard';
+        try {
+            $userId = auth()->user()->id;
+            $page_data['active'] = 'dashboard';
 
-        // Get all listings for this agent
-        $beautyListings = BeautyListing::where('user_id', $userId)->pluck('id');
-        $carListings = CarListing::where('user_id', $userId)->pluck('id');
-        $hotelListings = HotelListing::where('user_id', $userId)->pluck('id');
-        $restaurantListings = RestaurantListing::where('user_id', $userId)->pluck('id');
-        $realEstateListings = RealEstateListing::where('user_id', $userId)->pluck('id');
+            // Get all listings for this agent
+            $beautyListings = BeautyListing::where('user_id', $userId)->pluck('id');
+            $carListings = CarListing::where('user_id', $userId)->pluck('id');
+            $hotelListings = HotelListing::where('user_id', $userId)->pluck('id');
+            $restaurantListings = RestaurantListing::where('user_id', $userId)->pluck('id');
+            $realEstateListings = RealEstateListing::where('user_id', $userId)->pluck('id');
 
-        // Total Listings
-        $page_data['total_listings'] = $beautyListings->count() + $carListings->count() + $hotelListings->count() + $restaurantListings->count() + $realEstateListings->count();
+            // Total Listings
+            $page_data['total_listings'] = $beautyListings->count() + $carListings->count() + $hotelListings->count() + $restaurantListings->count() + $realEstateListings->count();
 
-        // Bookings from service_selling addon
-        $page_data['total_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->count();
-        
-        // Pending Bookings
-        $page_data['pending_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
-            ->where('status', 'pending')
-            ->count();
+            // Bookings from service_selling addon
+            try {
+                $page_data['total_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->count();
+                $page_data['pending_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->where('status', 'pending')->count();
+                $page_data['completed_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->where('status', 'completed')->count();
+                $page_data['total_earnings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->where('status', 'completed')->sum('total_amount');
+                $page_data['recent_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->orderBy('created_at', 'desc')->take(5)->get();
+                $startOfMonth = now()->startOfMonth();
+                $page_data['monthly_earnings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->where('status', 'completed')->where('created_at', '>=', $startOfMonth)->sum('total_amount');
+                $page_data['monthly_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)->where('created_at', '>=', $startOfMonth)->count();
+            } catch (\Exception $e) {
+                $page_data['total_bookings'] = 0;
+                $page_data['pending_bookings'] = 0;
+                $page_data['completed_bookings'] = 0;
+                $page_data['total_earnings'] = 0;
+                $page_data['recent_bookings'] = collect([]);
+                $page_data['monthly_earnings'] = 0;
+                $page_data['monthly_bookings'] = 0;
+            }
 
-        // Completed Bookings
-        $page_data['completed_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
-            ->where('status', 'completed')
-            ->count();
-
-        // Total Earnings (from completed bookings)
-        $page_data['total_earnings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
-            ->where('status', 'completed')
-            ->sum('total_amount');
-
-        // Recent Bookings
-        $recentBookings = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
-        $page_data['recent_bookings'] = $recentBookings;
-
-        // This month's stats
-        $startOfMonth = now()->startOfMonth();
-        $page_data['monthly_earnings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
-            ->where('status', 'completed')
-            ->where('created_at', '>=', $startOfMonth)
-            ->sum('total_amount');
-
-        $page_data['monthly_bookings'] = \App\Models\ServiceBooking::whereIn('listing_id', $beautyListings)
-            ->where('created_at', '>=', $startOfMonth)
-            ->count();
-
-        return view('user.agent.dashboard', $page_data);
+            return view('user.agent.dashboard', $page_data);
+        } catch (\Exception $e) {
+            $page_data['active'] = 'dashboard';
+            $page_data['total_listings'] = 0;
+            $page_data['total_bookings'] = 0;
+            $page_data['pending_bookings'] = 0;
+            $page_data['completed_bookings'] = 0;
+            $page_data['total_earnings'] = 0;
+            $page_data['recent_bookings'] = collect([]);
+            $page_data['monthly_earnings'] = 0;
+            $page_data['monthly_bookings'] = 0;
+            return view('user.agent.dashboard', $page_data);
+        }
     }
 
     public function my_listings()
