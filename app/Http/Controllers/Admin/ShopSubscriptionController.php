@@ -192,9 +192,10 @@ class ShopSubscriptionController extends Controller
 
     public function subscriptions(Request $request)
     {
+        // Show ALL subscriptions - don't filter by default
         $query = ShopSubscription::with(['user', 'plan']);
 
-        if ($request->status) {
+        if ($request->status && $request->status !== 'all') {
             if ($request->status === 'active') {
                 $query->active();
             } else {
