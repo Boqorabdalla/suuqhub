@@ -136,13 +136,18 @@ class ShopSubscriptionController extends Controller
                 return redirect()->back()->with('error', 'Payment is not pending.');
             }
 
+            // Get user and plan
+            $user = $payment->user;
+            $plan = SubscriptionPlan::find($payment->plan_id);
+            
+            if (!$user || !$plan) {
+                return redirect()->back()->with('error', 'User or Plan not found. User: ' . ($user ? 'OK' : 'Missing') . ', Plan: ' . ($plan ? 'OK' : 'Missing'));
+            }
+
             $payment->update([
                 'status' => 'completed',
                 'notes' => 'Approved by admin on ' . now()->format('Y-m-d H:i:s'),
             ]);
-
-            $user = $payment->user;
-            $plan = $payment->plan;
 
             // Calculate expiration
             $expiresAt = null;
@@ -150,6 +155,7 @@ class ShopSubscriptionController extends Controller
                 $expiresAt = now()->addDays($plan->duration_days);
             }
 
+            // Create subscription
             $subscription = ShopSubscription::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
@@ -161,7 +167,7 @@ class ShopSubscriptionController extends Controller
 
             $payment->update(['subscription_id' => $subscription->id]);
 
-            return redirect()->back()->with('success', 'Payment approved and subscription activated.');
+            return redirect()->back()->with('success', 'Payment approved and subscription activated for ' . $user->name);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error approving payment: ' . $e->getMessage());
         }
