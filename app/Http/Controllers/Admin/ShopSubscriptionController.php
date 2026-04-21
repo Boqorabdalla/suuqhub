@@ -129,7 +129,7 @@ class ShopSubscriptionController extends Controller
         return view('admin.subscriptions.payments', compact('payments', 'stats'));
     }
 
-    public function approvePayment(SubscriptionPayment $payment)
+    public function approvePayment(SubscriptionPayment $payment, Request $request = null)
     {
         try {
             if ($payment->status !== 'pending') {

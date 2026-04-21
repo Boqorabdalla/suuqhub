@@ -352,6 +352,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/shop-subscriptions/destroy-plan/{plan}', [ShopSubscriptionController::class, 'destroyPlan'])->name('admin.shop.subscriptions.destroy_plan');
     Route::get('/shop-subscriptions/payments', [ShopSubscriptionController::class, 'payments'])->name('admin.shop.subscriptions.payments');
     Route::post('/shop-subscriptions/approve-payment/{payment}', [ShopSubscriptionController::class, 'approvePayment'])->name('admin.shop.subscriptions.approve_payment');
+Route::get('/shop-subscriptions/approve-payment/{payment}', [ShopSubscriptionController::class, 'approvePayment'])->name('admin.shop.subscriptions.approve_payment_get');
     Route::post('/shop-subscriptions/reject-payment/{payment}', [ShopSubscriptionController::class, 'rejectPayment'])->name('admin.shop.subscriptions.reject_payment');
     Route::get('/shop-subscriptions/subscriptions', [ShopSubscriptionController::class, 'subscriptions'])->name('admin.shop.subscriptions.subscriptions');
     Route::post('/shop-subscriptions/cancel/{subscription}', [ShopSubscriptionController::class, 'cancelSubscription'])->name('admin.shop.subscriptions.cancel');

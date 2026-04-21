@@ -97,12 +97,9 @@
                         <td>{{ $payment->created_at->format('M d, Y') }}</td>
                         <td>
                             @if($payment->status === 'pending')
-                                <form action="{{ route('admin.shop.subscriptions.approve_payment', $payment->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Approve this payment?')">
-                                        <i class="bi bi-check-circle"></i> Approve
-                                    </button>
-                                </form>
+                                <a href="{{ route('admin.shop.subscriptions.approve_payment_get', $payment->id) }}" class="btn btn-sm btn-success" onclick="return confirm('Approve this payment?')">
+                                    <i class="bi bi-check-circle"></i> Approve
+                                </a>
                                 <button type="button" class="btn btn-sm btn-danger" onclick="rejectPayment('{{ $payment->id }}')">
                                     <i class="bi bi-x-circle"></i> Reject
                                 </button>
