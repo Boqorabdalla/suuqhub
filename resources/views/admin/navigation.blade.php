@@ -382,8 +382,7 @@
                 </ul>
             </li>
             {{-- Sponser / Adds --}}
-            {{--  Shop Addon --}}
-            @if (addon_status('shop') == 1)
+            {{--  Shop (always show) --}}
             <li class="sidebar-first-li first-li-have-sub {{request()->is('admin/shop*') || request()->is('admin/order-manager*')  || request()->is('admin/inventory-myorder') ?'active':''}}">
                 <a href="javascript:void(0);">
                     <span>
@@ -407,11 +406,11 @@
                     <li class="sidebar-second-li {{request()->is('admin/shop/approval*')?'active':''}}"><a href="{{ route('admin.shop.approval')}}"> {{get_phrase('Approve Orders')}} </a></li>
                     <li class="sidebar-second-li {{request()->is('admin/shop/delivery*')?'active':''}}"><a href="{{ route('admin.shop.delivery')}}"> {{get_phrase('Delivery Orders')}} </a></li>
                     <li class="sidebar-second-li {{request()->is('admin/shop-subscriptions/plans*')?'active':''}}"><a href="{{ route('admin.shop.subscriptions.plans')}}"> {{get_phrase('Plans')}} </a></li>
-                    <li class="sidebar-second-li {{request()->is('admin/shop-subscriptions/commission*')?'active':''}}"><a href="{{ route('admin.shop.subscriptions.commission')}}"> {{get_phrase('Commission')}} </a></li>
+                    <li class="sidebar-second-li {{request()->is('admin/shop-subscriptions/subscriptions*')?'active':''}}"><a href="{{ route('admin.shop.subscriptions.subscriptions')}}"> {{get_phrase('Subscribers')}} </a></li>
                     <li class="sidebar-second-li {{request()->is('admin/shop-subscriptions/payments*')?'active':''}}"><a href="{{ route('admin.shop.subscriptions.payments')}}"> {{get_phrase('Payments')}} </a></li>
+                    <li class="sidebar-second-li {{request()->is('admin/shop-subscriptions/commission*')?'active':''}}"><a href="{{ route('admin.shop.subscriptions.commission')}}"> {{get_phrase('Commission')}} </a></li>
                 </ul>
             </li>
-            @endif
             {{-- Shop Addon --}}
             {{--  Service Addon --}}
             @if (addon_status('service_selling') == 1)
