@@ -7,6 +7,7 @@ use App\Models\ShopSubscription;
 use App\Models\SubscriptionPlan;
 use App\Models\SubscriptionPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AgentSubscriptionController extends Controller
 {
@@ -66,7 +67,30 @@ class AgentSubscriptionController extends Controller
             return redirect()->back()->with('success', 'Your subscription request has been submitted and is awaiting admin approval.');
         }
         
-        return redirect()->back()->with('error', 'Online payment integration coming soon.');
+        // COD - auto-create subscription (pay later)
+        $subscription = \DB::table('shop_subscriptions')->insertGetId([
+            'user_id' => $user->id,
+            'plan_id' => $plan->id,
+            'status' => 'active',
+            'starts_at' => now(),
+            'expires_at' => now()->addMonth(),
+            'auto_renew' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        
+        // Also create payment record
+        SubscriptionPayment::create([
+            'user_id' => $user->id,
+            'plan_id' => $plan->id,
+            'amount' => $plan->price,
+            'payment_method' => 'cod',
+            'status' => 'completed',
+            'subscription_id' => $subscription,
+            'notes' => 'COD - Payment to be collected',
+        ]);
+        
+        return redirect()->back()->with('success', 'Subscription activated! Pay when agent collects payment.');
     }
 
     public function cancel()
