@@ -157,7 +157,7 @@ class ShopSubscriptionController extends Controller
             }
 
             // Create subscription - use DB directly to bypass model issues
-            $subscriptionId = \DB::table('shop_subscriptions')->insertGetId([
+            $subscriptionId = DB::table('shop_subscriptions')->insertGetId([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
                 'status' => 'active',
