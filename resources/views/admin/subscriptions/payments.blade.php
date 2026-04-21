@@ -100,9 +100,9 @@
                                 <a href="{{ route('admin.shop.subscriptions.approve_payment_get', $payment->id) }}" class="btn btn-sm btn-success" onclick="return confirm('Approve this payment?')">
                                     <i class="bi bi-check-circle"></i> Approve
                                 </a>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="rejectPayment('{{ $payment->id }}')">
+                                <a href="{{ route('admin.shop.subscriptions.reject_payment_get', $payment->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Reject this payment?')">
                                     <i class="bi bi-x-circle"></i> Reject
-                                </button>
+                                </a>
                             @endif
                         </td>
                     </tr>

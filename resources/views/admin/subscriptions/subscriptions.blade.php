@@ -80,12 +80,9 @@
                         </td>
                         <td>
                             @if($subscription->status === 'active' && !$subscription->isExpired())
-                                <form action="{{ route('admin.shop.subscriptions.cancel', $subscription->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Cancel this subscription?')">
-                                        Cancel
-                                    </button>
-                                </form>
+                                <a href="{{ route('admin.shop.subscriptions.cancel_get', $subscription->id) }}" class="btn btn-sm btn-warning" onclick="return confirm('Cancel this subscription?')">
+                                    Cancel
+                                </a>
                             @endif
                         </td>
                     </tr>

@@ -41,7 +41,7 @@ class AgentSubscriptionController extends Controller
         $user = auth()->user();
         
         if ($request->payment_method === 'manual') {
-            SubscriptionPayment::create([
+            $payment = SubscriptionPayment::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
                 'amount' => $plan->price,
@@ -49,6 +49,19 @@ class AgentSubscriptionController extends Controller
                 'status' => 'pending',
                 'notes' => 'Awaiting admin approval',
             ]);
+            
+            // Create notification for admin
+            try {
+                app(\App\Http\Controllers\Frontend\NotificationController::class)::create(
+                    1, // Admin user_id
+                    'subscription',
+                    'New Subscription Request',
+                    $user->name . ' requested ' . $plan->name . ' plan ($' . $plan->price . ')',
+                    route('admin.shop.subscriptions.payments')
+                );
+            } catch (\Exception $e) {
+                // Notification may fail if table doesn't exist
+            }
             
             return redirect()->back()->with('success', 'Your subscription request has been submitted and is awaiting admin approval.');
         }

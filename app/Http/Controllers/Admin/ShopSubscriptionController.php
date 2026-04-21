@@ -167,7 +167,7 @@ class ShopSubscriptionController extends Controller
         }
     }
 
-    public function rejectPayment(Request $request, SubscriptionPayment $payment)
+    public function rejectPayment(SubscriptionPayment $payment, Request $request = null)
     {
         if ($payment->status !== 'pending') {
             return redirect()->back()->with('error', 'Payment is not pending.');
@@ -205,7 +205,7 @@ class ShopSubscriptionController extends Controller
         return view('admin.subscriptions.subscriptions', compact('subscriptions'));
     }
 
-    public function cancelSubscription(Subscription $subscription)
+    public function cancelSubscription(ShopSubscription $subscription, Request $request = null)
     {
         $subscription->update([
             'status' => 'cancelled',

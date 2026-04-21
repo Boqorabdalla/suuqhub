@@ -354,8 +354,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/shop-subscriptions/approve-payment/{payment}', [ShopSubscriptionController::class, 'approvePayment'])->name('admin.shop.subscriptions.approve_payment');
 Route::get('/shop-subscriptions/approve-payment/{payment}', [ShopSubscriptionController::class, 'approvePayment'])->name('admin.shop.subscriptions.approve_payment_get');
     Route::post('/shop-subscriptions/reject-payment/{payment}', [ShopSubscriptionController::class, 'rejectPayment'])->name('admin.shop.subscriptions.reject_payment');
+Route::get('/shop-subscriptions/reject-payment/{payment}', [ShopSubscriptionController::class, 'rejectPayment'])->name('admin.shop.subscriptions.reject_payment_get');
     Route::get('/shop-subscriptions/subscriptions', [ShopSubscriptionController::class, 'subscriptions'])->name('admin.shop.subscriptions.subscriptions');
     Route::post('/shop-subscriptions/cancel/{subscription}', [ShopSubscriptionController::class, 'cancelSubscription'])->name('admin.shop.subscriptions.cancel');
+Route::get('/shop-subscriptions/cancel/{subscription}', [ShopSubscriptionController::class, 'cancelSubscription'])->name('admin.shop.subscriptions.cancel_get');
     Route::get('/shop-subscriptions/stats', [ShopSubscriptionController::class, 'stats'])->name('admin.shop.subscriptions.stats');
     Route::get('/shop-subscriptions/commission', [ShopSubscriptionController::class, 'commissionSettings'])->name('admin.shop.subscriptions.commission');
     Route::post('/shop-subscriptions/commission/update', [ShopSubscriptionController::class, 'updateCommissionSettings'])->name('admin.shop.subscriptions.commission.update');
