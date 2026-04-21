@@ -128,9 +128,15 @@
                                                 @else
                                                     <form action="{{ route('shop.subscription.subscribe', $plan->id) }}" method="POST" class="w-100">
                                                         @csrf
-                                                        <input type="hidden" name="payment_method" value="manual">
+                                                        <div class="mb-2">
+                                                            <label class="form-label small">Payment Method</label>
+                                                            <select name="payment_method" class="form-select form-select-sm">
+                                                                <option value="cod">Cash on Delivery (COD) - Pay with agent</option>
+                                                                <option value="manual">Request Admin Approval</option>
+                                                            </select>
+                                                        </div>
                                                         <button type="submit" class="btn btn-primary w-100 py-2">
-                                                            <i class="bi bi-cart-plus"></i> Subscribe Now (COD)
+                                                            <i class="bi bi-cart-plus"></i> Subscribe Now
                                                         </button>
                                                     </form>
                                                 @endif
