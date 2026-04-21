@@ -131,13 +131,16 @@ class ShopSubscriptionController extends Controller
 
     public function approvePayment(SubscriptionPayment $payment, Request $request = null)
     {
+        // Debug: Log what's happening
+        \Log::info('Approve payment called for ID: ' . $payment->id);
+        
         try {
             if ($payment->status !== 'pending') {
                 return redirect()->back()->with('error', 'Payment is not pending.');
             }
 
-            // Get user and plan
-            $user = $payment->user;
+            // Get user and plan using direct queries
+            $user = User::find($payment->user_id);
             $plan = SubscriptionPlan::find($payment->plan_id);
             
             if (!$user || !$plan) {
