@@ -8,6 +8,7 @@ use App\Models\SubscriptionPayment;
 use App\Models\ShopSubscription;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ShopSubscriptionController extends Controller
@@ -155,17 +156,19 @@ class ShopSubscriptionController extends Controller
                 $expiresAt = now()->addDays($plan->duration_days);
             }
 
-            // Create subscription - use direct insert to ensure it works
-            $subscription = new ShopSubscription();
-            $subscription->user_id = $user->id;
-            $subscription->plan_id = $plan->id;
-            $subscription->status = 'active';
-            $subscription->starts_at = now();
-            $subscription->expires_at = $expiresAt;
-            $subscription->auto_renew = false;
-            $subscription->save();
+            // Create subscription - use DB directly to bypass model issues
+            $subscriptionId = \DB::table('shop_subscriptions')->insertGetId([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'status' => 'active',
+                'starts_at' => now(),
+                'expires_at' => $expiresAt,
+                'auto_renew' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-            $payment->subscription_id = $subscription->id;
+            $payment->subscription_id = $subscriptionId;
             $payment->save();
 
             return redirect()->back()->with('success', 'Payment approved and subscription activated for ' . $user->name);
