@@ -16,13 +16,18 @@ class AgentInventoryController extends Controller
         
         $myListingIds = BeautyListing::where('user_id', $userId)->pluck('id')->toArray();
         
+        $listings = BeautyListing::where('user_id', $userId)->get();
+        
         if (empty($myListingIds)) {
             $page_data['inventories'] = collect([]);
-            $page_data['listings'] = collect([]);
+            $page_data['listings'] = $listings;
             return view('agent.inventory.index', $page_data);
         }
         
         $query = Inventory::whereIn('listing_id', $myListingIds);
+        
+        // Check data
+        \Log::info('User: ' . $userId . ', Listings: ' . count($myListingIds));
         
         // Filter by listing
         if ($request->has('listing_id') && $request->listing_id) {

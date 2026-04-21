@@ -178,6 +178,12 @@
                         <div class="text-center py-5">
                             <i class="bi bi-box-seam text-muted" style="font-size: 64px;"></i>
                             <h5 class="mt-3 text-muted">{{ get_phrase('No inventory items found') }}</h5>
+                                @if($listings->count() == 0)
+                                <div class="alert alert-warning mt-3">
+                                    <strong>No listings found!</strong> You need to create a listing first before adding inventory.
+                                    <br><a href="{{ route('user.listing.create', ['type' => 'beauty']) }}" class="btn btn-sm btn-primary mt-2">Create Listing</a>
+                                </div>
+                                @endif
                             <p class="text-muted">
                                 @if(request()->has('search') || request()->has('listing_id') || request()->has('stock_status') || request()->has('availability'))
                                     {{ get_phrase('Try adjusting your filters') }}
