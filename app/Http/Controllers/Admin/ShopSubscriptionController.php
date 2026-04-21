@@ -131,9 +131,6 @@ class ShopSubscriptionController extends Controller
 
     public function approvePayment(SubscriptionPayment $payment, Request $request = null)
     {
-        // Debug: Log what's happening
-        \Log::info('Approve payment called for ID: ' . $payment->id);
-        
         try {
             if ($payment->status !== 'pending') {
                 return redirect()->back()->with('error', 'Payment is not pending.');
@@ -158,17 +155,18 @@ class ShopSubscriptionController extends Controller
                 $expiresAt = now()->addDays($plan->duration_days);
             }
 
-            // Create subscription
-            $subscription = ShopSubscription::create([
-                'user_id' => $user->id,
-                'plan_id' => $plan->id,
-                'status' => 'active',
-                'starts_at' => now(),
-                'expires_at' => $expiresAt,
-                'auto_renew' => false,
-            ]);
+            // Create subscription - use direct insert to ensure it works
+            $subscription = new ShopSubscription();
+            $subscription->user_id = $user->id;
+            $subscription->plan_id = $plan->id;
+            $subscription->status = 'active';
+            $subscription->starts_at = now();
+            $subscription->expires_at = $expiresAt;
+            $subscription->auto_renew = false;
+            $subscription->save();
 
-            $payment->update(['subscription_id' => $subscription->id]);
+            $payment->subscription_id = $subscription->id;
+            $payment->save();
 
             return redirect()->back()->with('success', 'Payment approved and subscription activated for ' . $user->name);
         } catch (\Exception $e) {
