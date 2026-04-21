@@ -132,49 +132,28 @@ class ShopSubscriptionController extends Controller
 
     public function approvePayment(SubscriptionPayment $payment, Request $request = null)
     {
-        try {
-            if ($payment->status !== 'pending') {
-                return redirect()->back()->with('error', 'Payment is not pending.');
-            }
-
-            // Get user and plan using direct queries
-            $user = User::find($payment->user_id);
-            $plan = SubscriptionPlan::find($payment->plan_id);
-            
-            if (!$user || !$plan) {
-                return redirect()->back()->with('error', 'User or Plan not found. User: ' . ($user ? 'OK' : 'Missing') . ', Plan: ' . ($plan ? 'OK' : 'Missing'));
-            }
-
-            $payment->update([
-                'status' => 'completed',
-                'notes' => 'Approved by admin on ' . now()->format('Y-m-d H:i:s'),
-            ]);
-
-            // Calculate expiration
-            $expiresAt = null;
-            if ($plan->billing_period !== 'lifetime' && $plan->duration_days > 0) {
-                $expiresAt = now()->addDays($plan->duration_days);
-            }
-
-            // Create subscription - use DB directly to bypass model issues
-            $subscriptionId = DB::table('shop_subscriptions')->insertGetId([
-                'user_id' => $user->id,
-                'plan_id' => $plan->id,
-                'status' => 'active',
-                'starts_at' => now(),
-                'expires_at' => $expiresAt,
-                'auto_renew' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            $payment->subscription_id = $subscriptionId;
-            $payment->save();
-
-            return redirect()->back()->with('success', 'Payment approved and subscription activated for ' . $user->name);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error approving payment: ' . $e->getMessage());
-        }
+        // Simple direct approach - no relationships, no models
+        $userId = $payment->user_id;
+        $planId = $payment->plan_id;
+        
+        // Update payment status first
+        $payment->status = 'completed';
+        $payment->notes = 'Approved on ' . date('Y-m-d H:i:s');
+        $payment->save();
+        
+        // Create subscription directly
+        DB::table('shop_subscriptions')->insert([
+            'user_id' => $userId,
+            'plan_id' => $planId,
+            'status' => 'active',
+            'starts_at' => now(),
+            'expires_at' => now()->addMonth(),
+            'auto_renew' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        
+        return redirect()->back()->with('success', 'Subscription activated successfully!');
     }
 
     public function rejectPayment(SubscriptionPayment $payment, Request $request = null)
