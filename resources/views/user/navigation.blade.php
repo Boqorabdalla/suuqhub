@@ -242,8 +242,8 @@ if (!isset($active)) $active = '';
                                 </a>
                             </li>
                             @endif
-                            {{-- Shop Addon --}}
-                            @if(addon_status('shop') == 1 && user('role') == 2 && user('is_agent') == 1)
+                            {{-- Shop Subscription (always show for agents) --}}
+                            @if(user('role') == 2 && user('is_agent') == 1)
                                 <li class="sidebar-nav-item"><a href="{{ route('shop.subscription') }}" class="sidebar-nav-link {{ $active == 'shop_subscription' ? 'active' : '' }}">
                                         <span class="d-flex align-items-center mt-1px gap-6px">
                                             <i class="bi bi-credit-card" style="font-size: 18px;"></i>
