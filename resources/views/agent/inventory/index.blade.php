@@ -181,7 +181,7 @@
                                 @if($listings->count() == 0)
                                 <div class="alert alert-warning mt-3">
                                     <strong>No listings found!</strong> You need to create a listing first before adding inventory.
-                                    <br><a href="{{ route('user.listing.create', ['type' => 'beauty']) }}" class="btn btn-sm btn-primary mt-2">Create Listing</a>
+                                    <br><a href="{{ route('agent.create.category', ['type' => 'beauty']) }}" class="btn btn-sm btn-primary mt-2">Create Listing</a>
                                 </div>
                                 @endif
                             <p class="text-muted">

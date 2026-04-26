@@ -7,7 +7,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title> @yield('title') </title>
+    <title>@stack('title') | SUUQ-HUB</title>
+    @stack('css')
+    @stack('styles')
     @if(get_frontend_settings('favicon_logo'))
     <link rel="shortcut icon" href="{{ asset('uploads/logo/' . get_frontend_settings('favicon_logo')) }}" type="image/x-icon">
     @else
@@ -71,7 +73,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
-                        @yield('admin_layout')
+                        @yield('content')
                     </div>
                 </div>
             </div>
