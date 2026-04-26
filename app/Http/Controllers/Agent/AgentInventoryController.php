@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use App\Models\BeautyListing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AgentInventoryController extends Controller
@@ -71,6 +72,8 @@ class AgentInventoryController extends Controller
     {
         $userId = auth()->user()->id;
         $listings = BeautyListing::where('user_id', $userId)->get();
+        
+        \Log::info('User ID: ' . $userId . ', Listings count: ' . $listings->count());
         
         $page_data['listings'] = $listings;
         
