@@ -24,6 +24,11 @@ class OrderController extends Controller
         $page_data['orders'] = $query->orderBy('created_at', 'desc')->paginate(20);
         $page_data['status'] = $request->status;
         
+        // Return agent view for non-admin users
+        if (auth()->user()->role != 1) {
+            return view('agent.shop.orders.index', $page_data);
+        }
+        
         return view('admin.shop.orders.index', $page_data);
     }
 
@@ -33,10 +38,14 @@ class OrderController extends Controller
         
         if (auth()->user()->role != 1 && $order->seller_id != auth()->user()->id) {
             Session::flash('error', get_phrase('You do not have permission to view this order.'));
-            return redirect()->route('admin.shop.orders');
+            return redirect()->route('agent.shop.orders');
         }
         
         $page_data['order'] = $order;
+        
+        if (auth()->user()->role != 1) {
+            return view('agent.shop.orders.show', $page_data);
+        }
         
         return view('admin.shop.orders.show', $page_data);
     }

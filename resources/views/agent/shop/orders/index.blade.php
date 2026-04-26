@@ -1,0 +1,82 @@
+@extends('layouts.admin')
+@push('title')
+{{ get_phrase('Shop Orders') }}
+@endpush
+@section('content')
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">{{ get_phrase('Shop Orders') }}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ get_phrase('Order') }}</th>
+                                            <th>{{ get_phrase('Customer') }}</th>
+                                            <th>{{ get_phrase('Items') }}</th>
+                                            <th>{{ get_phrase('Total') }}</th>
+                                            <th>{{ get_phrase('Status') }}</th>
+                                            <th>{{ get_phrase('Date') }}</th>
+                                            <th>{{ get_phrase('Action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($orders as $order)
+                                        <tr>
+                                            <td>
+                                                <strong>{{ $order->order_number }}</strong>
+                                            </td>
+                                            <td>
+                                                <div>{{ $order->customer_name }}</div>
+                                                <small class="text-muted">{{ $order->customer_email }}</small>
+                                            </td>
+                                            <td>{{ $order->items->sum('quantity') }}</td>
+                                            <td>{{ currency($order->total) }}</td>
+                                            <td>
+                                                @if($order->order_status == 'pending')
+                                                    <span class="badge bg-warning">{{ get_phrase('Pending') }}</span>
+                                                @elseif($order->order_status == 'processing')
+                                                    <span class="badge bg-info">{{ get_phrase('Processing') }}</span>
+                                                @elseif($order->order_status == 'delivered')
+                                                    <span class="badge bg-success">{{ get_phrase('Delivered') }}</span>
+                                                @else
+                                                    <span class="badge bg-secondary">{{ $order->order_status }}</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ date('d M Y', strtotime($order->created_at)) }}</td>
+                                            <td>
+                                                <a href="{{ route('agent.shop.order.show', $order->id) }}" class="btn btn-sm btn-outline-primary">
+                                                    {{ get_phrase('View') }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center py-4">
+                                                {{ get_phrase('No orders found') }}
+                                            </td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{ $orders->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
