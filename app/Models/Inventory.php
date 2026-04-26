@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
@@ -41,6 +42,11 @@ class Inventory extends Model
                 $item->slug = Str::slug($item->name);
             }
         });
+    }
+
+    public function listing(): BelongsTo
+    {
+        return $this->belongsTo(BeautyListing::class, 'listing_id');
     }
 
     public function images(): HasMany
