@@ -318,6 +318,13 @@ if (!function_exists('currency')) {
         }
     }
 }
+if (!function_exists('get_currency_symbol')) {
+    function get_currency_symbol()
+    {
+        $code = DB::table('system_settings')->where('key', 'system_currency')->value('value');
+        return DB::table('currencies')->where('id', $code)->value('symbol') ?? '$';
+    }
+}
 // app/helpers.php
 if (! function_exists('format_time')) {
     function format_time($time) {
