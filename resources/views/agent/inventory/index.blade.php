@@ -96,7 +96,7 @@
                                         <td>
                                             <div class="d-flex align-items-center gap-3">
                                                 @if($inventory->featured_image)
-                                                    <img src="{{ asset('uploads/shop/inventory/'.$inventory->featured_image) }}" alt="" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <img src="{{ asset('uploads/listing/'.$inventory->featured_image) }}" alt="" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
                                                 @else
                                                     <div class="rounded bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                                                         <i class="bi bi-image text-muted"></i>
@@ -125,7 +125,7 @@
                                         </td>
                                         <td>
                                             @if($inventory->track_stock)
-                                                <span class="{{ $inventory->stock_quantity <= 0 ? 'stock-out' : ($inventory->stock_quantity <= 5 ? 'stock-low' : 'stock-ok') }}">
+                                                <span class="stock-qty {{ $inventory->stock_quantity <= 0 ? 'stock-out' : ($inventory->stock_quantity <= 5 ? 'stock-low' : 'stock-ok') }}">
                                                     {{ $inventory->stock_quantity }}
                                                 </span>
                                             @else
@@ -158,7 +158,7 @@
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </div>
-                                            <form id="stock-form-{{ $inventory->id }}" action="{{ route('agent.inventory.stock.update', $inventory->id) }}" method="POST" class="d-none mt-2">
+                                            <form id="stock-form-{{ $inventory->id }}" action="{{ route('agent.inventory.stock.update', $inventory->id) }}" method="POST" class="d-none mt-2 stock-ajax-form">
                                                 @csrf
                                                 <div class="input-group input-group-sm">
                                                     <input type="number" name="stock_quantity" class="form-control" value="{{ $inventory->stock_quantity }}" min="0">
@@ -201,4 +201,32 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+$(document).on('submit', '.stock-ajax-form', function(e) {
+    e.preventDefault();
+    var form = $(this);
+    var formData = new FormData(this);
+    var url = form.attr('action');
+    var row = form.closest('tr');
+    
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            row.find('.stock-qty').text(form.find('input[name="stock_quantity"]').val());
+            form.addClass('d-none');
+            toastr.success('Stock updated successfully');
+        },
+        error: function(xhr) {
+            toastr.error('Error updating stock');
+        }
+    });
+});
+</script>
+@endpush
 @endsection

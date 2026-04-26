@@ -119,7 +119,7 @@ class AgentInventoryController extends Controller
         $myListingIds = BeautyListing::where('user_id', $userId)->pluck('id')->toArray();
         
         $page_data['inventory'] = Inventory::whereIn('listing_id', $myListingIds)->findOrFail($id);
-        $page_data['listings'] = BeautyListing::where('user_id', $userId)->where('status', 'active')->get();
+        $page_data['listings'] = BeautyListing::where('user_id', $userId)->get();
         
         return view('agent.inventory.edit', $page_data);
     }
