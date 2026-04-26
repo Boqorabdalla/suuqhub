@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="col-md-2 col-6 mt-3 mt-md-0">
                                     <div class="input-group input-group-sm">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity({{ $item->id }}, {{ intval($item->quantity) - 1 }})">-</button>
+                                        <button type="button" class="btn btn-outline-secondary" @if($item->quantity <= 1) disabled @endif onclick="updateQuantity({{ $item->id }}, 1)">-</button>
                                         <input type="text" class="form-control text-center" value="{{ $item->quantity }}" readonly>
                                         <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity({{ $item->id }}, {{ intval($item->quantity) + 1 }})">+</button>
                                     </div>
