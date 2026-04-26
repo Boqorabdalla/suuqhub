@@ -96,7 +96,8 @@
                                         <td>
                                             <div class="d-flex align-items-center gap-3">
                                                 @if($inventory->featured_image)
-                                                    <img src="{{ asset('uploads/listing/'.$inventory->featured_image) }}" alt="" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    @php $imgPath = file_exists(public_path('uploads/listing/'.$inventory->featured_image)) ? 'uploads/listing/'.$inventory->featured_image : 'uploads/shop/inventory/'.$inventory->featured_image; @endphp
+                                                    <img src="{{ asset($imgPath) }}" alt="" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
                                                 @else
                                                     <div class="rounded bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                                                         <i class="bi bi-image text-muted"></i>
