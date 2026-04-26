@@ -73,7 +73,8 @@ class AgentInventoryController extends Controller
         $userId = auth()->user()->id;
         $listings = BeautyListing::where('user_id', $userId)->get();
         
-        \Log::info('User ID: ' . $userId . ', Listings count: ' . $listings->count());
+        // Debug
+        file_put_contents(storage_path('logs/debug.txt'), "User: $userId, Count: " . $listings->count());
         
         $page_data['listings'] = $listings;
         
