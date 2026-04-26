@@ -16,6 +16,15 @@ class InventoryCategoryController extends Controller
         return view('admin.shop.inventory.categories', $page_data);
     }
 
+    public function create(Request $request)
+    {
+        $page_data['type'] = $request->type ?? 'beauty';
+        $page_data['listing_id'] = $request->listing_id ?? null;
+        $page_data['prefix'] = $request->prefix ?? 'admin';
+        
+        return view('admin.shop.inventory.category_form', $page_data);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

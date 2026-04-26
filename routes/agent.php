@@ -10,6 +10,7 @@ use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Agent\AgentInventoryController;
 use App\Http\Controllers\Agent\AgentEarningsController;
 use App\Http\Controllers\Agent\AgentSubscriptionController;
+use App\Http\Controllers\Admin\Shop\InventoryCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,9 @@ Route::middleware(['auth', 'agent', 'shopSubscription'])->group(function () {
     Route::get('/agent/inventory/delete/{id}', [AgentInventoryController::class, 'destroy'])->name('agent.inventory.delete');
     Route::post('/agent/inventory/stock/{id}', [AgentInventoryController::class, 'updateStock'])->name('agent.inventory.stock.update');
     Route::post('/agent/inventory/bulk-stock', [AgentInventoryController::class, 'bulkUpdateStock'])->name('agent.inventory.bulk-stock');
+    
+    // Inventory Category Modal
+    Route::get('/agent/inventory/category/create', [InventoryCategoryController::class, 'create'])->name('agent.inventory.category.create');
 });
 
 // Agent Earnings Routes (requires shop subscription)

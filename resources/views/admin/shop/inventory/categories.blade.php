@@ -1,6 +1,8 @@
 @extends('layouts.admin')
-@section('title', get_phrase('Inventory Categories'))
-@section('admin_layout')
+@push('title')
+{{ get_phrase('Inventory Categories') }}
+@endpush
+@section('content')
 <div class="mb-2">
     <a href="{{ route('admin.shop.inventory') }}" class="btn btn-outline-secondary">
         <i class="fi-rr-arrow-left"></i> {{ get_phrase('Back to Inventory') }}
