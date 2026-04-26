@@ -259,14 +259,21 @@ if (!isset($active)) $active = '';
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="sidebar-nav-item"><a href="{{ route('agent.inventory') }}" class="sidebar-nav-link {{ $active == 'inventory' ? 'active' : '' }}">
+<li class="sidebar-nav-item"><a href="{{ route('agent.inventory') }}" class="sidebar-nav-link {{ $active == 'inventory' ? 'active' : '' }}">
                                             <span class="d-flex align-items-center mt-1px gap-6px">
                                                 <i class="bi bi-box-seam" style="font-size: 18px;"></i>
                                                 <span class="mt-1px">{{ get_phrase('Inventory') }}</span>
                                             </span>
                                         </a>
                                     </li>
-                                @endif
+                                    <li class="sidebar-nav-item"><a href="{{ route('agent.shop.orders') }}" class="sidebar-nav-link {{ $active == 'shop_orders' ? 'active' : '' }}">
+                                            <span class="d-flex align-items-center mt-1px gap-6px">
+                                                <i class="bi bi-bag" style="font-size: 18px;"></i>
+                                                <span class="mt-1px">{{ get_phrase('Shop Orders') }}</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                            @endif
                             @endif
                             {{-- Service  Addon --}}
                               @if (addon_status('service_selling') == 1)
