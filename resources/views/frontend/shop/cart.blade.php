@@ -69,9 +69,9 @@
                                 </div>
                                 <div class="col-md-2 col-6 mt-3 mt-md-0">
                                     <div class="input-group input-group-sm">
-                                        <a href="{{ route('shop.cart.remove', $item->id) }}" class="btn btn-outline-secondary">-</a>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity({{ $item->id }}, {{ intval($item->quantity) - 1 }})">-</button>
                                         <input type="text" class="form-control text-center" value="{{ $item->quantity }}" readonly>
-                                        <a href="#" onclick="event.preventDefault(); updateQuantity({{ $item->id }}, {{ intval($item->quantity) + 1 }})" class="btn btn-outline-secondary">+</a>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity({{ $item->id }}, {{ intval($item->quantity) + 1 }})">+</button>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-6 mt-3 mt-md-0 text-end">

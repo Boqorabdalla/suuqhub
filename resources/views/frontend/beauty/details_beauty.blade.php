@@ -198,6 +198,44 @@
                             </div>
                         </div>
                     @endif
+                    
+                    <!-- Products / Inventory -->
+                    @php
+                        $inventories = App\Models\Inventory::where('listing_id', $listing->id)->where('availability', 1)->get();
+                    @endphp
+                    @if($inventories->count() > 0)
+                        <div class="beauty-details-services mb-36">
+                            <h4 class="in-title3-24px mb-20">{{ get_phrase('Products') }}</h4>
+                            <div class="row row-28">
+                                @foreach($inventories as $item)
+                                    <div class="col-xl-6 col-lg-12 col-md-6">
+                                        <div class="beauty-details-service d-flex align-items-center justify-content-between flex-wrap">
+                                            <div class="details">
+                                                <p class="info">{{ $item->name }}</p>
+                                                <p class="price">{{ currency($item->price) }}</p>
+                                                @if($item->track_stock && $item->stock_quantity <= 0)
+                                                    <p class="text-danger">{{ get_phrase('Out of Stock') }}</p>
+                                                @elseif($item->track_stock)
+                                                    <small class="text-success">{{ get_phrase('In Stock') }} ({{ $item->stock_quantity }})</small>
+                                                @endif
+                                            </div>
+                                            @if(!$item->track_stock || $item->stock_quantity > 0)
+                                            <form action="{{ route('shop.cart.add') }}" method="POST" class="d-flex align-items-center">
+                                                @csrf
+                                                <input type="hidden" name="item_type" value="inventory">
+                                                <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                                <input type="number" name="quantity" value="1" min="1" max="{{ $item->track_stock ? $item->stock_quantity : 10 }}" class="form-control form-control-sm" style="width:60px;">
+                                                <button type="submit" class="btn btn-primary btn-sm ms-2">
+                                                    <i class="bi bi-cart-plus"></i>
+                                                </button>
+                                            </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     <!-- Opening Time -->
                     @if ($listing->opening_time)
                         <!-- Opening Time -->
