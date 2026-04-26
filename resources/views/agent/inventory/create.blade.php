@@ -1,6 +1,6 @@
-@extends('layouts.frontend')
+@extends('layouts.admin')
 @push('title', get_phrase('Add Inventory'))
-@section('frontend_layout')
+@section('content')
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">

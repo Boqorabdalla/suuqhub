@@ -1,6 +1,6 @@
-@extends('layouts.frontend')
-@push('title', get_phrase('Earnings & Commissions'))
-@section('frontend_layout')
+@extends('layouts.admin')
+@push('title', get_phrase('Earnings'))
+@section('content')
     }
     .stat-card:hover {
         transform: translateY(-5px);

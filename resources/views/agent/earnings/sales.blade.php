@@ -1,6 +1,6 @@
-@extends('layouts.frontend')
+@extends('layouts.admin')
 @push('title', get_phrase('Sales Report'))
-@section('frontend_layout')
+@section('content')
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0">{{ get_phrase('Sales Report') }}</h4>
                         <div class="page-title-right">
