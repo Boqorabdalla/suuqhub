@@ -156,7 +156,7 @@ class AgentInventoryController extends Controller
             ->where('user_id', auth()->user()->id)
             ->firstOrFail();
         
-        $inventory->update([
+        $data = [
             'listing_id' => $request->listing_id,
             'name' => $request->name,
             'description' => $request->description ?? '',
@@ -164,10 +164,18 @@ class AgentInventoryController extends Controller
             'discount_price' => $request->discount_price,
             'stock_quantity' => $request->stock_quantity ?? 0,
             'sku' => $request->sku,
-            'featured_image' => $request->featured_image,
             'track_stock' => $request->track_stock ?? 0,
             'availability' => $request->availability ?? 1,
-        ]);
+        ];
+        
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/listing'), $imageName);
+            $data['featured_image'] = $imageName;
+        }
+        
+        $inventory->update($data);
         
         Session::flash('success', get_phrase('Inventory item updated successfully!'));
         return redirect()->route('agent.inventory');
