@@ -2,7 +2,7 @@
 @push('title')
 {{ get_phrase('Shop Orders') }}
 @endpush
-@section('content')
+@section('admin_layout')
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">

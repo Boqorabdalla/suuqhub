@@ -52,6 +52,8 @@
         <div class="ol-sidebar">
             @if(auth()->check() && auth()->user()->role == 3)
                 @include('admin.order_manager_navigation')
+            @elseif(auth()->check() && auth()->user()->role == 2)
+                @include('user.navigation')
             @else
                 @include('admin.navigation')
             @endif
