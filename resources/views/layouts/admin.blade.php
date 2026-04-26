@@ -57,11 +57,7 @@
             @endif
         </div>
         <div class="ol-sidebar-content">
-            @if(auth()->check() && auth()->user()->role != 1 && auth()->user()->role != 3)
-                @include('user.partials.header')
-            @else
-                @include('admin.header')
-            @endif
+            @include('admin.header')
             <!-- Content -->
             <div class="ol-body-content">
                 <div class="container-fluid">
