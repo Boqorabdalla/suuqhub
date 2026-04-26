@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use App\Models\BeautyListing;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AgentInventoryController extends Controller
@@ -26,9 +25,6 @@ class AgentInventoryController extends Controller
         }
         
         $query = Inventory::whereIn('listing_id', $myListingIds);
-        
-        // Check data
-        \Log::info('User: ' . $userId . ', Listings: ' . count($myListingIds));
         
         // Filter by listing
         if ($request->has('listing_id') && $request->listing_id) {
