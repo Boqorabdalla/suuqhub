@@ -53,7 +53,7 @@
             @if(auth()->check() && auth()->user()->role == 3)
                 @include('admin.order_manager_navigation')
             @else
-                @include('user.navigation')
+                @include('admin.navigation')
             @endif
         </div>
         <div class="ol-sidebar-content">
