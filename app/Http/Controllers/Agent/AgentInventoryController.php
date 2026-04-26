@@ -70,7 +70,9 @@ class AgentInventoryController extends Controller
     public function create()
     {
         $userId = auth()->user()->id;
-        $page_data['listings'] = BeautyListing::where('user_id', $userId)->where('status', 'active')->get();
+        $listings = BeautyListing::where('user_id', $userId)->get();
+        
+        $page_data['listings'] = $listings;
         
         return view('agent.inventory.create', $page_data);
     }
