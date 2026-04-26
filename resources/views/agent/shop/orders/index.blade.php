@@ -2,7 +2,11 @@
 @push('title')
 {{ get_phrase('Shop Orders') }}
 @endpush
-@section('admin_layout')
+@section('content')
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
