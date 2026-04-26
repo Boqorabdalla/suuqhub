@@ -1,8 +1,6 @@
-@extends('layouts.admin')
-@push('title')
-{{ get_phrase('Order Details') }}
-@endpush
-@section('content')
+@extends('layouts.frontend')
+@push('title', get_phrase('Order Details'))
+@section('frontend_layout')
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">

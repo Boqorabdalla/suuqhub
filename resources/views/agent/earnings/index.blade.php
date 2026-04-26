@@ -1,13 +1,6 @@
-@extends('layouts.admin')
-@push('title')
-{{ get_phrase('Earnings & Commissions') }}
-@endpush
-@push('styles')
-<style>
-    .stat-card {
-        border: none;
-        border-radius: 10px;
-        transition: transform 0.2s;
+@extends('layouts.frontend')
+@push('title', get_phrase('Earnings & Commissions'))
+@section('frontend_layout')
     }
     .stat-card:hover {
         transform: translateY(-5px);

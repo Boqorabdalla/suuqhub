@@ -1,6 +1,6 @@
-@extends('layouts.admin')
-@section('title', get_phrase('Approve Inventory Orders'))
-@section('admin_layout')
+@extends('layouts.frontend')
+@push('title', get_phrase('Approve Inventory Orders'))
+@section('frontend_layout')
 
 <div class="ol-card radius-8px">
     <div class="ol-card-body my-2 py-18px px-20px">

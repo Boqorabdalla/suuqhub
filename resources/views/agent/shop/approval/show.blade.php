@@ -1,6 +1,6 @@
-@extends('layouts.admin')
-@section('title', get_phrase('Order Details'))
-@section('admin_layout')
+@extends('layouts.frontend')
+@push('title', get_phrase('Order Details'))
+@section('frontend_layout')
 
 <div class="mb-2">
     <a href="{{ route('agent.shop.approval') }}" class="btn btn-outline-secondary">

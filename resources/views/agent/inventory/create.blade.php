@@ -1,8 +1,6 @@
-@extends('layouts.admin')
-@push('title')
-{{ get_phrase('Add Inventory Item') }}
-@endpush
-@section('content')
+@extends('layouts.frontend')
+@push('title', get_phrase('Add Inventory'))
+@section('frontend_layout')
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">

@@ -1,15 +1,6 @@
-@extends('layouts.admin')
-@push('title')
-{{ get_phrase('Inventory Management') }}
-@endpush
-@push('styles')
-<style>
-    .stock-low { color: #ffc107; }
-    .stock-out { color: #dc3545; }
-    .stock-ok { color: #198754; }
-</style>
-@endpush
-@section('content')
+@extends('layouts.frontend')
+@push('title', get_phrase('Inventory'))
+@section('frontend_layout')
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
