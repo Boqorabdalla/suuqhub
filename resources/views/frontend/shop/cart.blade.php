@@ -154,10 +154,11 @@
 
 @push('script')
 <script>
-    function updateQuantity(itemId, quantity) {
-        document.getElementById('updateItemId').value = itemId;
-        document.getElementById('updateQuantity').value = quantity;
-        document.getElementById('updateCartForm').submit();
-    }
+function updateQuantity(itemId, quantity) {
+    if (quantity < 1) quantity = 1;
+    document.getElementById('updateItemId').value = itemId;
+    document.getElementById('updateQuantity').value = quantity;
+    document.getElementById('updateCartForm').submit();
+}
 </script>
 @endpush
