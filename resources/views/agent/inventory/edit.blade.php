@@ -110,7 +110,8 @@
                             <div class="card-body">
                                 @if($inventory->featured_image)
                                     <div class="mb-3 text-center">
-                                        <img src="{{ asset('uploads/shop/inventory/'.$inventory->featured_image) }}" alt="" class="img-fluid rounded" style="max-height: 200px;">
+                                        @php $imgPath = file_exists(public_path('uploads/listing/'.$inventory->featured_image)) ? 'uploads/listing/'.$inventory->featured_image : 'uploads/shop/inventory/'.$inventory->featured_image; @endphp
+                                        <img src="{{ asset($imgPath) }}" alt="" class="img-fluid rounded" style="max-height: 200px;">
                                     </div>
                                 @endif
                                 <div class="mb-3">

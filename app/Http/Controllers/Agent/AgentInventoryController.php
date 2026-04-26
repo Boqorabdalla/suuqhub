@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use App\Models\BeautyListing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AgentInventoryController extends Controller
 {
@@ -95,6 +96,14 @@ class AgentInventoryController extends Controller
             ->where('user_id', auth()->user()->id)
             ->firstOrFail();
         
+        $featuredImage = null;
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/listing'), $imageName);
+            $featuredImage = $imageName;
+        }
+        
         Inventory::create([
             'listing_id' => $request->listing_id,
             'type' => 'product',
@@ -104,7 +113,7 @@ class AgentInventoryController extends Controller
             'discount_price' => $request->discount_price,
             'stock_quantity' => $request->stock_quantity ?? 0,
             'sku' => $request->sku,
-            'featured_image' => $request->featured_image,
+            'featured_image' => $featuredImage,
             'track_stock' => $request->track_stock ?? 0,
             'availability' => $request->availability ?? 1,
         ]);
