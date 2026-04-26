@@ -40,7 +40,7 @@
                             <select name="listing_id" class="form-select">
                                 <option value="">{{ get_phrase('All Listings') }}</option>
                                 @foreach($listings as $listing)
-                                    <option value="{{ $listing->id }}" {{ ($filters['listing_id'] ?? '') == $listing->id ? 'selected' : '' }}>{{ $listing->name }}</option>
+                                    <option value="{{ $listing->id }}" {{ ($filters['listing_id'] ?? '') == $listing->id ? 'selected' : '' }}>{{ $listing->title }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -112,7 +112,7 @@
                                         </td>
                                         <td>
                                             @if($inventory->listing)
-                                                <span class="badge bg-info">{{ $inventory->listing->name }}</span>
+                                                <span class="badge bg-info">{{ $inventory->listing->title }}</span>
                                             @else
                                                 <span class="text-muted">-</span>
                                             @endif

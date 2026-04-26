@@ -34,7 +34,7 @@
                                     <select name="listing_id" class="form-select" required>
                                         <option value="">{{ get_phrase('Select Listing') }}</option>
                                         @foreach($listings as $listing)
-                                            <option value="{{ $listing->id }}" {{ $inventory->listing_id == $listing->id ? 'selected' : '' }}>{{ $listing->name }}</option>
+                                            <option value="{{ $listing->id }}" {{ $inventory->listing_id == $listing->id ? 'selected' : '' }}>{{ $listing->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
