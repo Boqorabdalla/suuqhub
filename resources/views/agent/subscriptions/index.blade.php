@@ -1,8 +1,11 @@
-@extends('layouts.frontend')
+@extends('layouts.admin')
 @push('title', get_phrase('Shop Subscription'))
-@push('meta')@endpush
+@push('styles')
 
-@section('frontend_layout')
+@section('content')
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
 
 <style>
     .pricing-card {
@@ -176,12 +179,9 @@
                                 </div>
                                 @endif
                             </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-
+</div>
 @endsection
